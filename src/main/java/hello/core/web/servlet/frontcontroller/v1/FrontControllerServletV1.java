@@ -13,12 +13,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-// 하위 url 지정
+// urlPatterns 을 포함한 하위 모든 요청을 이 서블릿에서 response
+// ex) /front-controller/v1, /front-controller/v1/a, /front-controller/v1/a/b
 @WebServlet(name = "frontControllerServletV1", urlPatterns = "/front-controller/v1/*")
 public class FrontControllerServletV1 extends HttpServlet {
     // url 정보 매핑
     private Map<String, ControllerV1> controllerMap = new HashMap<>();
 
+    // 매핑 URL => 호출 컨트롤러
     public FrontControllerServletV1() {
         controllerMap.put("/front-controller/v1/members/new-form", new MemberFormControllerV1());
         controllerMap.put("/front-controller/v1/members/save", new MemberSaveControllerV1());
@@ -28,13 +30,10 @@ public class FrontControllerServletV1 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("FrontControllerServletV1");
-//        System.out.println("request.getRequestURL() " + request.getRequestURL());
-//        System.out.println("request.getRequestURI() : "+request.getRequestURI());
+
         /*
             request.getRequestURL() http://localhost:8080/front-controller/v1/
             request.getRequestURI() : /front-controller/v1/
-            System.out.println("request.getRequestURL() " + request.getRequestURL());
-            System.out.println("request.getRequestURI() : "+request.getRequestURI());
          */
 
         String requestURI = request.getRequestURI();
